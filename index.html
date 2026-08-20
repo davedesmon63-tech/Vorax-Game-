@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VORAX GAME</title>
+<style>
+body{margin:0;color:#fff;font-family:Arial;background:url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200') center/cover fixed}body::before{content:'';position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:-1}
+.h{background:rgba(0,0,0,0.9);padding:15px;text-align:center;border-bottom:3px solid #fa0}.h h1{margin:0;letter-spacing:3px;text-shadow:0 0 15px #fa0}
+.m{display:flex;flex-wrap:wrap;gap:4px;background:rgba(0,0,0,0.9);padding:8px;position:sticky;top:0;z-index:100}.m button{padding:8px 12px;background:rgba(255,255,255,0.1);border:1px solid #fa0;color:#fa0;font-weight:bold;border-radius:20px;cursor:pointer;font-size:11px}.m button.on{background:#fa0;color:#000}.m button.juge{border-color:#ff006a;color:#ff006a;background:rgba(255,0,106,0.1)}
+.p{display:none;padding:10px;max-width:1200px;margin:auto}.p.on{display:block}
+.c{background:rgba(0,0,0,0.7);border:1px solid #fa0;padding:10px;margin:8px 0;border-radius:15px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.dc{background:rgba(0,0,0,0.6);border:1px solid #fa0;padding:8px;border-radius:15px;text-align:center;position:relative}.dc video,.dc img{width:100%;height:220px;object-fit:cover;border-radius:10px;background:#000}
+.badge{position:absolute;top:10px;left:10px;background:#0ff;color:#000;padding:4px 10px;border-radius:20px;font-size:9px;font-weight:bold;z-index:5}
+.vc{background:rgba(0,0,0,0.7);border:2px solid #fa0;padding:10px;border-radius:15px;text-align:center;margin:8px 0}
+.bt{background:linear-gradient(90deg,#fa0,#f80);color:#000;border:0;padding:10px;width:100%;border-radius:20px;margin-top:5px;font-weight:bold;cursor:pointer}.bt2{background:#222;color:#fa0;border:1px solid #fa0}
+.judge-panel{display:none;background:rgba(10,0,10,0.98);border:2px solid #ff006a;padding:12px;margin:12px;border-radius:20px}.judge-panel.on{display:block}
+.sub{border:1px solid #333;padding:10px;margin:8px 0;border-radius:12px;background:rgba(255,255,255,0.03)}
+.sub.cmd{border-color:#0ff;background:rgba(0,255,255,0.05)}.sub.juge-photo{border-color:#ff006a;background:rgba(255,0,106,0.07)}
+.juge-card{width:100%;height:160px;object-fit:cover;border-radius:12px;border:2px solid #ff006a;background:#000}
+input,textarea,select{width:100%;background:rgba(0,0,0,0.7);border:1px solid #fa0;color:#fff;padding:7px;margin:4px 0;border-radius:10px}
+.box{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#111;border:2px solid #ff006a;padding:0;border-radius:15px;display:none;z-index:99;width:90%;max-width:350px;overflow:hidden}.box-inner{padding:15px}.bg{position:fixed;inset:0;background:#000a;display:none;z-index:98}
+</style></head><body>
+<div class="h"><h1>⚔️ VORAX GAME ⚔️</h1><small>PUBLIC = VOTE + REGARDE / JUGES OFFICIELS = TOUT GERE</small></div>
+<div class="m">
+<button id="btn-divisions" class="on" onclick="go('divisions')">DIVISIONS</button>
+<button id="btn-vs" onclick="go('vs')">VS</button>
+<button id="btn-palmares" onclick="go('palmares')">PALMARES</button>
+<button id="btn-resultats" onclick="go('resultats')">RESULTATS</button>
+<button class="juge" onclick="code('juge')">🔴 JUGE OFFICIEL</button>
+</div>
+
+<div id="tab-divisions" class="p on">
+<div class="c" style="text-align:center">🎮 VORAX GAME - DIVISIONS</div>
+<div class="g">
+<div class="dc"><span class="badge">D1</span><video id="vid1" autoplay muted loop playsinline poster="https://via.placeholder.com/300x220/111/fa0?text=D1+VIDEO"></video><img id="img1" style="display:none"><h3 id="txt1">DIVISION 1</h3><h2><span id="v1">0</span> votes</h2><button class="bt" style="background:#0ff" onclick="voteD(1)">VOTER D1</button></div>
+<div class="dc"><span class="badge" style="background:#fa0">D2</span><video id="vid2" autoplay muted loop playsinline poster="https://via.placeholder.com/300x220/111/fa0?text=D2+VIDEO"></video><img id="img2" style="display:none"><h3 id="txt2">DIVISION 2</h3><h2><span id="v2">0</span> votes</h2><button class="bt" style="background:#fa0" onclick="voteD(2)">VOTER D2</button></div>
+<div class="dc"><span class="badge" style="background:#0f0">D3</span><video id="vid3" autoplay muted loop playsinline poster="https://via.placeholder.com/300x220/111/0f0?text=D3+VIDEO"></video><img id="img3" style="display:none"><h3 id="txt3">DIVISION 3</h3><h2><span id="v3">0</span> votes</h2><button class="bt" style="background:#0f0" onclick="voteD(3)">VOTER D3</button></div>
+</div>
+<div class="c" style="border-color:#ff006a"><h3 style="color:#ff006a">👨‍⚖️ JUGES OFFICIELS</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"><div style="text-align:center"><img id="juge1ImgPublic" class="juge-card" style="height:120px" src="https://via.placeholder.com/200x120/200/ff006a?text=JUGE+1"><p id="juge1NamePublic" style="font-size:11px">Juge 1</p></div><div style="text-align:center"><img id="juge2ImgPublic" class="juge-card" style="height:120px" src="https://via.placeholder.com/200x120/200/ff006a?text=JUGE+2"><p id="juge2NamePublic" style="font-size:11px">Juge 2</p></div><div style="text-align:center"><img id="juge3ImgPublic" class="juge-card" style="height:120px" src="https://via.placeholder.com/200x120/200/ff006a?text=JUGE+3"><p id="juge3NamePublic" style="font-size:11px">Juge 3</p></div></div></div>
+</div>
+
+<div id="tab-vs" class="p"><div class="c" style="text-align:center">⚔️ ARENE VS - VORAX GAME</div><div class="vc" id="vsA"><h3>D1 VS D2</h3><h2><span id="sA1">0</span> VS <span id="sA2">0</span></h2><div style="display:flex;gap:5px"><button class="bt" onclick="voteVS('A',1)">D1</button><button class="bt" onclick="voteVS('A',2)">D2</button></div></div><div class="vc" id="vsB"><h3>D1 VS D3</h3><h2><span id="sB1">0</span> VS <span id="sB2">0</span></h2><div style="display:flex;gap:5px"><button class="bt" onclick="voteVS('B',1)">D1</button><button class="bt" onclick="voteVS('B',2)">D3</button></div></div><div class="vc" id="vsC"><h3>D2 VS D3</h3><h2><span id="sC1">0</span> VS <span id="sC2">0</span></h2><div style="display:flex;gap:5px"><button class="bt" onclick="voteVS('C',1)">D2</button><button class="bt" onclick="voteVS('C',2)">D3</button></div></div></div>
+
+<div id="tab-palmares" class="p"><h2 style="text-align:center;color:#fa0">👑 VORAX GAME - PALMARES</h2><div class="g"><div class="c" style="text-align:center"><img id="legBestImg" src="https://via.placeholder.com/300x200/111/fa0?text=BEST" style="width:100%;height:200px;object-fit:cover;border-radius:10px"><h3 id="legBestName">BEST</h3></div><div class="c" style="text-align:center"><img id="legStratImg" src="https://via.placeholder.com/300x200/011/0ff?text=STRAT" style="width:100%;height:200px;object-fit:cover;border-radius:10px"><h3 id="legStratName">STRATEGE</h3></div><div class="c" style="text-align:center"><img id="legProdImg" src="https://via.placeholder.com/300x200/010/0f0?text=PRODIGE" style="width:100%;height:200px;object-fit:cover;border-radius:10px"><h3 id="legProdName">PRODIGE</h3></div><div class="c" style="text-align:center;border-color:#ff006a"><img id="legRecordImg" src="https://via.placeholder.com/300x200/100/ff006a?text=RECORD" style="width:100%;height:200px;object-fit:cover;border-radius:10px"><h3 id="legRecordName">RECORD</h3><p id="legRecordDesc"></p></div></div></div>
+<div id="tab-resultats" class="p"><div class="c" style="text-align:center"><h2>VORAX GAME - RESULTATS OFFICIELS</h2><div id="publicResult">Aucun résultat</div></div></div>
+
+<!-- PANEL JUGE OFFICIEL - TOUT CACHE ICI -->
+<div id="juge-panel" class="judge-panel">
+<h2 style="color:#ff006a;text-align:center">🔴 PANEL JUGE OFFICIEL - VORAX GAME</h2>
+<p style="text-align:center;font-size:11px;color:#888">Tout ce qui est ici est invisible pour le public 🌚</p>
+
+<div class="sub juge-photo"><h3 style="color:#ff006a">📸 BRANCHE JUGES - Vos Photos (depuis galerie)</h3>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+<div><img id="juge1Img" class="juge-card" src="https://via.placeholder.com/200x160/200/ff006a?text=JUGE+1"><input type="file" accept="image/*" onchange="upJuge(event,1)"><input id="juge1Name" placeholder="Nom Juge 1"><button class="bt" style="background:#ff006a" onclick="saveJuge(1)">Sauver Juge 1</button></div>
+<div><img id="juge2Img" class="juge-card" src="https://via.placeholder.com/200x160/200/ff006a?text=JUGE+2"><input type="file" accept="image/*" onchange="upJuge(event,2)"><input id="juge2Name" placeholder="Nom Juge 2"><button class="bt" style="background:#ff006a" onclick="saveJuge(2)">Sauver Juge 2</button></div>
+<div><img id="juge3Img" class="juge-card" src="https://via.placeholder.com/200x160/200/ff006a?text=JUGE+3"><input type="file" accept="image/*" onchange="upJuge(event,3)"><input id="juge3Name" placeholder="Nom Juge 3"><button class="bt" style="background:#ff006a" onclick="saveJuge(3)">Sauver Juge 3</button></div>
+</div>
+</div>
+
+<div class="sub cmd"><h3 style="color:#0ff">🔵 GESTION VIDEOS COMMANDANTS (Réservé Juge Officiel)</h3><p style="font-size:10px;color:#888">C'est ici que tu gères les vidéos D1/D2/D3 - invisible public</p>
+<label style="color:#0ff">VIDEO D1:</label><input type="file" accept="video/*" onchange="upVideo(event,1)"><div style="display:flex;gap:5px"><button class="bt" style="background:#0ff;color:#000" onclick="delVideo(1)">Suppr D1</button><input id="n1a" placeholder="Nom D1" style="flex:1"><button class="bt" style="background:#0ff;color:#000" onclick="saveN(1)">Nom D1</button></div>
+<label style="color:#fa0;margin-top:10px;display:block">VIDEO D2:</label><input type="file" accept="video/*" onchange="upVideo(event,2)"><div style="display:flex;gap:5px"><button class="bt" style="background:#fa0;color:#000" onclick="delVideo(2)">Suppr D2</button><input id="n2a" placeholder="Nom D2" style="flex:1"><button class="bt" style="background:#fa0;color:#000" onclick="saveN(2)">Nom D2</button></div>
+<label style="color:#0f0;margin-top:10px;display:block">VIDEO D3:</label><input type="file" accept="video/*" onchange="upVideo(event,3)"><div style="display:flex;gap:5px"><button class="bt" style="background:#0f0;color:#000" onclick="delVideo(3)">Suppr D3</button><input id="n3a" placeholder="Nom D3" style="flex:1"><button class="bt" style="background:#0f0;color:#000" onclick="saveN(3)">Nom D3</button></div>
+<p style="font-size:9px;color:#0ff">Astuce: Vidéo max 15Mo - Compresse 720p 10s avec CapCut</p>
+</div>
+
+<div class="sub"><h3>🏆 PALMARES + RECORD</h3><input type="file" accept="image/*" onchange="upL(event,'Best')"><input id="bestName" placeholder="BEST DIV"><button class="bt" onclick="saveLeg('Best')">Sauver Best</button><input type="file" accept="image/*" onchange="upL(event,'Strat')" style="margin-top:5px"><input id="stratName" placeholder="STRATEGE"><button class="bt" onclick="saveLeg('Strat')">Sauver Stratège</button><input type="file" accept="image/*" onchange="upL(event,'Prod')" style="margin-top:5px"><input id="prodName" placeholder="PRODIGE"><button class="bt" onclick="saveLeg('Prod')">Sauver Prodige</button><input type="file" accept="image/*" onchange="upL(event,'Record')" style="margin-top:8px"><input id="recName" placeholder="RECORD Nom"><input id="recDesc" placeholder="RECORD Desc"><button class="bt" style="background:#ff006a" onclick="saveRecord()">Sauver RECORD</button></div>
+
+<div class="sub"><h3>⚔️ VS + RESULTATS</h3><select id="arena"><option value="ABC">Tous VS</option><option value="A">A seul</option><option value="B">B seul</option><option value="C">C seul</option><option value="none">Aucun</option></select><button class="bt" onclick="setArena()">Lancer VS</button><div style="display:flex;gap:5px"><button class="bt bt2" onclick="resetVS()">RESET VS</button><button class="bt bt2" onclick="resetDivVotes()">RESET VOTES DIVS</button></div><textarea id="resText" placeholder="Résultat VORAX GAME..."></textarea><button class="bt" style="background:#0a0" onclick="pub()">Publier Résultat</button><button class="bt bt2" onclick="clearRes()">Effacer Résultat</button></div>
+
+<div class="sub" style="border-color:red"><button class="bt" style="background:#000;border:2px solid red;color:red" onclick="resetAll()">⚠️ RESET TOTAL VORAX GAME</button></div>
+
+<button class="bt bt2" onclick="closeJuge()">FERMER PANEL JUGE</button>
+</div>
+
+<div class="bg" id="bg" onclick="closeCode()"></div>
+<div class="box" id="box"><div class="box-inner"><h3 style="text-align:center;color:#ff006a">🔴 JUGE OFFICIEL</h3><p style="text-align:center;font-size:11px;color:#888">Code Juge</p><input type="password" id="codeIn" placeholder="••••" style="text-align:center;font-size:22px;letter-spacing:8px"><button class="bt" style="background:#ff006a" onclick="check()">ENTRER VORAX GAME</button><p id="err" style="color:red;display:none;text-align:center">Faux code</p></div></div>
+
+<script>
+let vs={A:[0,0],B:[0,0],C:[0,0]},votes=[0,0,0,0];
+const CODE_JUGE='2009';
+function go(t){document.querySelectorAll('.p').forEach(p=>p.classList.remove('on'));document.getElementById('tab-'+t).classList.add('on');document.querySelectorAll('.m button').forEach(b=>b.classList.remove('on'));let b=document.getElementById('btn-'+t);if(b)b.classList.add('on')}
+function code(a){document.getElementById('box').style.display='block';document.getElementById('bg').style.display='block'}
+function closeCode(){document.getElementById('box').style.display='none';document.getElementById('bg').style.display='none';document.getElementById('err').style.display='none'}
+function check(){if(document.getElementById('codeIn').value===CODE_JUGE){closeCode();document.getElementById('juge-panel').classList.add('on');document.getElementById('codeIn').value=''}else document.getElementById('err').style.display='block'}
+function closeJuge(){document.getElementById('juge-panel').classList.remove('on')}
+function upJuge(e,n){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=x=>{localStorage.setItem('juge'+n+'Img',x.target.result);loadJuges()};r.readAsDataURL(f)}
+function saveJuge(n){let v=document.getElementById('juge'+n+'Name').value;if(v){localStorage.setItem('juge'+n+'Name',v);loadJuges();alert('Juge '+n+' sauvé ✅')}}
+function upVideo(e,n){const f=e.target.files[0];if(!f)return;if(f.size>15*1024*1024){alert('Trop lourd! Max 15Mo. CapCut 720p 10s');return}const r=new FileReader();r.onload=x=>{try{localStorage.setItem('vid'+n,x.target.result);localStorage.removeItem('img'+n);loadMedia();alert('✅ Vidéo D'+n+' OK')}catch{alert('Trop lourd, essaie <5Mo')}};r.readAsDataURL(f)}
+function delVideo(n){if(confirm('Supprimer vidéo D'+n+'?')){localStorage.removeItem('vid'+n);loadMedia()}}
+function up(e,n){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=x=>{localStorage.setItem('img'+n,x.target.result);localStorage.removeItem('vid'+n);loadMedia()};r.readAsDataURL(f)}
+function saveN(n){let v=document.getElementById('n'+n+'a').value;if(v){localStorage.setItem('txt'+n,v);loadMedia()}}
+function upL(e,t){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=x=>{localStorage.setItem('leg'+t+'Img',x.target.result);loadLeg()};r.readAsDataURL(f)}
+function saveLeg(t){let id={Best:'bestName',Strat:'stratName',Prod:'prodName'}[t];let v=document.getElementById(id).value;if(v)localStorage.setItem('leg'+t+'Name',v);loadLeg()}
+function saveRecord(){let n=document.getElementById('recName').value;let d=document.getElementById('recDesc').value;if(n)localStorage.setItem('legRecordName',n);if(d)localStorage.setItem('legRecordDesc',d);loadLeg();alert('Record sauvé')}
+function loadMedia(){[1,2,3].forEach(i=>{let vid=localStorage.getItem('vid'+i);let img=localStorage.getItem('img'+i);let vEl=document.getElementById('vid'+i);let iEl=document.getElementById('img'+i);if(vid){vEl.src=vid;vEl.style.display='block';iEl.style.display='none';vEl.load()}else if(img){iEl.src=img;iEl.style.display='block';vEl.style.display='none'}let tx=localStorage.getItem('txt'+i);if(tx)document.getElementById('txt'+i).textContent=tx})}
+function loadJuges(){[1,2,3].forEach(i=>{let img=localStorage.getItem('juge'+i+'Img');let name=localStorage.getItem('juge'+i+'Name');if(img){document.getElementById('juge'+i+'Img').src=img;document.getElementById('juge'+i+'ImgPublic').src=img}if(name){document.getElementById('juge'+i+'NamePublic').textContent=name}})}
+function loadLeg(){['Best','Strat','Prod','Record'].forEach(t=>{let i=localStorage.getItem('leg'+t+'Img');let n=localStorage.getItem('leg'+t+'Name');let d=localStorage.getItem('leg'+t+'Desc');if(i)document.getElementById('leg'+t+'Img').src=i;if(n)document.getElementById('leg'+t+'Name').textContent=n;if(d&&document.getElementById('leg'+t+'Desc'))document.getElementById('leg'+t+'Desc').textContent=d})}
+function voteD(n){let p=prompt('Pseudo:');if(!p)return;let k='div_'+n;let list=JSON.parse(localStorage.getItem('voters_'+k)||'[]');if(list.includes(p)){alert('Déjà voté D'+n);return}list.push(p);localStorage.setItem('voters_'+k,JSON.stringify(list));votes[n]++;localStorage.setItem('votes',JSON.stringify(votes));upd()}
+function voteVS(m,t){let p=prompt('Pseudo:');if(!p)return;let k='vs_'+m;let list=JSON.parse(localStorage.getItem('voters_'+k)||'[]');if(list.includes(p)){alert('Déjà');return}list.push(p);localStorage.setItem('voters_'+k,JSON.stringify(list));vs[m][t-1]++;localStorage.setItem('vs',JSON.stringify(vs));upd()}
+function setArena(){localStorage.setItem('arena',document.getElementById('arena').value);applyA()}
+function applyA(){let a=localStorage.getItem('arena')||'ABC';let map={none:[],A:['vsA'],B:['vsB'],C:['vsC'],ABC:['vsA','vsB','vsC']};['vsA','vsB','vsC'].forEach(id=>document.getElementById(id).style.display='none');(map[a]||[]).forEach(id=>document.getElementById(id).style.display='block')}
+function resetVS(){if(!confirm('Reset VS?'))return;vs={A:[0,0],B:[0,0],C:[0,0]};localStorage.setItem('vs',JSON.stringify(vs));upd();applyA()}
+function resetDivVotes(){if(!confirm('Reset votes divisions?'))return;votes=[0,0,0,0];localStorage.setItem('votes',JSON.stringify(votes));['div_1','div_2','div_3'].forEach(k=>localStorage.removeItem('voters_'+k));upd()}
+function pub(){let t=document.getElementById('resText').value;if(!t)return;localStorage.setItem('res',t);loadR()}
+function clearRes(){localStorage.removeItem('res');loadR()}
+function loadR(){let r=localStorage.getItem('res');document.getElementById('publicResult').textContent=r||'Aucun résultat'}
+function upd(){try{vs=JSON.parse(localStorage.getItem('vs'))||vs;votes=JSON.parse(localStorage.getItem('votes'))||votes}catch(e){}document.getElementById('sA1').textContent=vs.A[0];document.getElementById('sA2').textContent=vs.A[1];document.getElementById('sB1').textContent=vs.B[0];document.getElementById('sB2').textContent=vs.B[1];document.getElementById('sC1').textContent=vs.C[0];document.getElementById('sC2').textContent=vs.C[1];document.getElementById('v1').textContent=votes[1]||0;document.getElementById('v2').textContent=votes[2]||0;document.getElementById('v3').textContent=votes[3]||0}
+function resetAll(){if(confirm('RESET TOTAL VORAX GAME?')){localStorage.clear();location.reload()}}
+window.onload=function(){loadMedia();upd();applyA();loadR();loadLeg();loadJuges()}
+</script></body></html>
