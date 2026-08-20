@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VORAX V10.8 VIDEO COMMANDANT</title>
+<style>
+body{margin:0;color:#fff;font-family:Arial;background:url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1200') center/cover fixed}body::before{content:'';position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:-1}
+.h{background:rgba(0,0,0,0.8);padding:15px;text-align:center;border-bottom:2px solid #fa0}
+.m{display:flex;flex-wrap:wrap;gap:3px;background:rgba(0,0,0,0.9);padding:6px;position:sticky;top:0;z-index:100}.m button{padding:7px 9px;background:rgba(255,255,255,0.1);border:1px solid #fa0;color:#fa0;font-weight:bold;border-radius:20px;cursor:pointer;font-size:10px}.m button.on{background:#fa0;color:#000}.m button.cmd{border-color:#0ff;color:#0ff}.m button.admin{border-color:#f00;color:#f55}
+.p{display:none;padding:10px;max-width:1200px;margin:auto}.p.on{display:block}
+.c{background:rgba(0,0,0,0.7);border:1px solid #fa033;padding:10px;margin:8px 0;border-radius:15px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.dc{background:rgba(0,0,0,0.6);border:1px solid #fa0;padding:8px;border-radius:15px;text-align:center;position:relative}
+.dc video,.dc img{width:100%;height:220px;object-fit:cover;border-radius:10px;background:#000}
+.dc.badge{position:absolute;top:12px;left:12px;background:#0ff;color:#000;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:bold}
+.vc{background:rgba(0,0,0,0.7);border:2px solid #fa0;padding:10px;border-radius:15px;text-align:center;margin:8px 0}
+.bt{background:linear-gradient(90deg,#fa0,#f80);color:#000;border:0;padding:10px;width:100%;border-radius:20px;margin-top:5px;font-weight:bold;cursor:pointer}
+.ad{display:none;background:rgba(0,0,0,0.95);border:2px dashed #fa0;padding:10px;margin:10px;border-radius:15px}.ad.on{display:block}
+.cmd-panel{display:none;background:rgba(0,20,30,0.95);border:2px solid #0ff;padding:10px;margin:10px;border-radius:15px}.cmd-panel.on{display:block}
+input,textarea,select{width:100%;background:rgba(0,0,0,0.7);border:1px solid #fa0;color:#fff;padding:7px;margin:4px 0;border-radius:10px}
+.box{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#000;border:2px solid #fa0;padding:0;border-radius:15px;display:none;z-index:99;width:90%;max-width:350px;overflow:hidden}.box-inner{padding:15px}.bg{position:fixed;inset:0;background:#000a;display:none;z-index:98}
+</style></head><body>
+<div class="h"><h1>⚔️ VORAX - VIDEO COMMANDANT ⚔️</h1><small>Public = Regarde / Commandant = Sa Div / Admin = Tout</small></div>
+<div class="m">
+<button id="btn-divisions" class="on" onclick="go('divisions')">DIVISIONS</button>
+<button id="btn-vs" onclick="go('vs')">VS</button>
+<button id="btn-palmares" onclick="go('palmares')">PALMARES</button>
+<button id="btn-resultats" onclick="go('resultats')">RESULTATS</button>
+<button class="cmd" onclick="code('cmd1')">CMD D1</button>
+<button class="cmd" onclick="code('cmd2')">CMD D2</button>
+<button class="cmd" onclick="code('cmd3')">CMD D3</button>
+<button class="admin" onclick="code('admin1')">ADMIN 1</button>
+<button class="admin" onclick="code('admin2')">ADMIN 2</button>
+</div>
+
+<div id="tab-divisions" class="p on">
+<div class="c" style="text-align:center">🎬 VIDEOS DES DIVISIONS - Public peut seulement regarder</div>
+<div class="g">
+<div class="dc"><span class="badge">D1 - CMD 111</span><video id="vid1" autoplay muted loop playsinline poster="https://via.placeholder.com/300x220/111/fa0?text=D1+VIDEO"></video><img id="img1" style="display:none"><h3 id="txt1">DIVISION 1</h3><p style="font-size:11px;color:#0ff">Commandant D1 uniquement</p></div>
+<div class="dc"><span class="badge" style="background:#fa0">D2 - CMD 222</span><video id="vid2" autoplay muted loop playsinline poster="https://via.placeholder.com/300x220/111/fa0?text=D2+VIDEO"></video><img id="img2" style="display:none"><h3 id="txt2">DIVISION 2</h3><p style="font-size:11px;color:#fa0">Commandant D2 uniquement</p></div>
+<div class="dc"><span class="badge" style="background:#0f0">D3 - CMD 333</span><video id="vid3" autoplay muted loop playsinline poster="https://via.placeholder.com/300x220/111/0f0?text=D3+VIDEO"></video><img id="img3" style="display:none"><h3 id="txt3">DIVISION 3</h3><p style="font-size:11px;color:#0f0">Commandant D3 uniquement</p></div>
+</div>
+</div>
+
+<div id="tab-vs" class="p"><div id="arenaTitle" class="c" style="text-align:center">ARENE VS</div><div class="vc" id="vsA"><h3>D1 VS D2</h3><h2><span id="sA1">0</span> VS <span id="sA2">0</span></h2><div style="display:flex;gap:5px"><button class="bt" onclick="voteVS('A',1)">VOTE D1</button><button class="bt" onclick="voteVS('A',2)">VOTE D2</button></div><button class="bt" style="background:#222;color:#fa0" onclick="cancelOne('A')">ANNULER (ADMIN)</button></div><div class="vc" id="vsB"><h3>D1 VS D3</h3><h2><span id="sB1">0</span> VS <span id="sB2">0</span></h2><div style="display:flex;gap:5px"><button class="bt" onclick="voteVS('B',1)">D1</button><button class="bt" onclick="voteVS('B',2)">D3</button></div><button class="bt" style="background:#222;color:#fa0" onclick="cancelOne('B')">ANNULER</button></div><div class="vc" id="vsC"><h3>D2 VS D3</h3><h2><span id="sC1">0</span> VS <span id="sC2">0</span></h2><div style="display:flex;gap:5px"><button class="bt" onclick="voteVS('C',1)">D2</button><button class="bt" onclick="voteVS('C',2)">D3</button></div><button class="bt" style="background:#222;color:#fa0" onclick="cancelOne('C')">ANNULER</button></div></div>
+
+<div id="tab-palmares" class="p"><h2 style="text-align:center;color:#fa0">👑 PALMARES</h2><div class="g"><div class="c" style="text-align:center"><img id="legBestImg" src="https://via.placeholder.com/300x200/111/fa0?text=BEST"><h3 id="legBestName">BEST</h3></div><div class="c" style="text-align:center;border-color:#0ff"><img id="legStratImg" src="https://via.placeholder.com/300x200/011/0ff?text=STRAT"><h3 id="legStratName">STRATEGE</h3></div><div class="c" style="text-align:center;border-color:#0f0"><img id="legProdImg" src="https://via.placeholder.com/300x200/010/0f0?text=PRODIGE"><h3 id="legProdName">PRODIGE</h3></div><div class="c" style="text-align:center;border-color:#ff006a"><img id="legRecordImg" src="https://via.placeholder.com/300x200/100/ff006a?text=RECORD"><h3 id="legRecordName">RECORD</h3><p id="legRecordDesc"></p></div></div></div>
+<div id="tab-resultats" class="p"><div class="c" style="text-align:center"><h2>RESULTATS</h2><div id="publicResult">Aucun</div></div></div>
+
+<div id="cmd1-panel" class="cmd-panel"><h3 style="color:#0ff">🔵 COMMANDANT D1 - Panel Vidéo</h3><p style="font-size:11px;color:#888">Tu peux seulement modifier D1</p><input type="file" accept="video/*" onchange="upVideo(event,1)"><p style="font-size:10px;color:#0ff">Upload vidéo MP4 (max 20Mo conseillé)</p><input type="file" accept="image/*" onchange="up(event,1)"><p style="font-size:10px">Ou image si tu veux</p><input id="n1" placeholder="Nom D1"><button class="bt" style="background:#0ff;color:#000" onclick="saveN(1)">SAUVER D1</button><button class="bt" style="background:#222;color:#0ff" onclick="closeCmd('cmd1')">FERMER</button></div>
+
+<div id="cmd2-panel" class="cmd-panel"><h3 style="color:#fa0">🟡 COMMANDANT D2</h3><input type="file" accept="video/*" onchange="upVideo(event,2)"><input type="file" accept="image/*" onchange="up(event,2)"><input id="n2" placeholder="Nom D2"><button class="bt" style="background:#fa0;color:#000" onclick="saveN(2)">SAUVER D2</button><button class="bt" style="background:#222;color:#fa0" onclick="closeCmd('cmd2')">FERMER</button></div>
+
+<div id="cmd3-panel" class="cmd-panel"><h3 style="color:#0f0">🟢 COMMANDANT D3</h3><input type="file" accept="video/*" onchange="upVideo(event,3)"><input type="file" accept="image/*" onchange="up(event,3)"><input id="n3" placeholder="Nom D3"><button class="bt" style="background:#0f0;color:#000" onclick="saveN(3)">SAUVER D3</button><button class="bt" style="background:#222;color:#0f0" onclick="closeCmd('cmd3')">FERMER</button></div>
+
+<div id="admin1-panel" class="ad"><h2 style="color:#f55">🔴 ADMIN 1 - TOUT</h2>
+<div class="c" style="border-color:#0ff"><h4>🎬 VIDEOS - ADMIN PEUT TOUT MODIFIER</h4><input type="file" accept="video/*" onchange="upVideo(event,1)"><button class="bt" style="background:#0ff;color:#000" onclick="delVideo(1)">Supprimer Vidéo D1</button><input type="file" accept="video/*" onchange="upVideo(event,2)" style="margin-top:8px"><button class="bt" style="background:#fa0;color:#000" onclick="delVideo(2)">Supprimer Vidéo D2</button><input type="file" accept="video/*" onchange="upVideo(event,3)" style="margin-top:8px"><button class="bt" style="background:#0f0;color:#000" onclick="delVideo(3)">Supprimer Vidéo D3</button></div>
+<div class="c"><h4>Images Divs</h4><input type="file" accept="image/*" onchange="up(event,1)"><input id="n1a" placeholder="Nom D1"><button class="bt" onclick="saveNAdmin(1,1)">Sauver D1</button><input type="file" accept="image/*" onchange="up(event,2)" style="margin-top:5px"><input id="n2a" placeholder="Nom D2"><button class="bt" onclick="saveNAdmin(2,1)">Sauver D2</button><input type="file" accept="image/*" onchange="up(event,3)" style="margin-top:5px"><input id="n3a" placeholder="Nom D3"><button class="bt" onclick="saveNAdmin(3,1)">Sauver D3</button></div>
+<div class="c" style="border-color:#ff006a"><h4>🏆 RECORD (Admin only)</h4><input type="file" accept="image/*" onchange="upL(event,'Record')"><input id="recName1" placeholder="Nom Record"><input id="recDesc1" placeholder="Desc Record"><button class="bt" style="background:#ff006a" onclick="saveRecord(1)">Sauver Record</button></div>
+<div class="c"><h4>VS + Résultats</h4><select id="arena1"><option value="ABC">Tous VS</option><option value="A">A seul</option><option value="B">B seul</option><option value="C">C seul</option><option value="none">Aucun</option></select><button class="bt" onclick="setA(1)">Lancer VS</button><textarea id="r1" placeholder="Résultat..."></textarea><button class="bt" onclick="pub(1)">Publier Résultat</button></div>
+<button class="bt" style="background:#222" onclick="closeA('admin1')">FERMER ADMIN 1</button></div>
+
+<div id="admin2-panel" class="ad"><h2 style="color:#f55">🔴 ADMIN 2 - TOUT</h2>
+<div class="c" style="border-color:#0ff"><h4>🎬 VIDEOS - TOUT</h4><input type="file" accept="video/*" onchange="upVideo(event,1)"><button class="bt" style="background:#0ff;color:#000" onclick="delVideo(1)">Suppr D1</button><input type="file" accept="video/*" onchange="upVideo(event,2)" style="margin-top:8px"><button class="bt" style="background:#fa0;color:#000" onclick="delVideo(2)">Suppr D2</button><input type="file" accept="video/*" onchange="upVideo(event,3)" style="margin-top:8px"><button class="bt" style="background:#0f0;color:#000" onclick="delVideo(3)">Suppr D3</button></div>
+<div class="c"><h4>Images Divs</h4><input type="file" accept="image/*" onchange="up(event,1)"><input id="n1b" placeholder="Nom D1"><button class="bt" onclick="saveNAdmin(1,2)">Sauver D1</button><input type="file" accept="image/*" onchange="up(event,2)" style="margin-top:5px"><input id="n2b" placeholder="Nom D2"><button class="bt" onclick="saveNAdmin(2,2)">Sauver D2</button><input type="file" accept="image/*" onchange="up(event,3)" style="margin-top:5px"><input id="n3b" placeholder="Nom D3"><button class="bt" onclick="saveNAdmin(3,2)">Sauver D3</button></div>
+<div class="c" style="border-color:#ff006a"><h4>🏆 RECORD</h4><input type="file" accept="image/*" onchange="upL(event,'Record')"><input id="recName2" placeholder="Nom Record"><input id="recDesc2" placeholder="Desc"><button class="bt" style="background:#ff006a" onclick="saveRecord(2)">Sauver Record</button></div>
+<div class="c"><textarea id="r2" placeholder="Résultat..."></textarea><button class="bt" onclick="pub(2)">Publier</button></div>
+<button class="bt" style="background:#222" onclick="closeA('admin2')">FERMER</button></div>
+
+<div class="bg" id="bg" onclick="closeCode()"></div>
+<div class="box" id="box"><div class="box-inner"><h3 id="boxTitle" style="text-align:center;color:#fa0">🔒 ACCES</h3><p id="boxDesc" style="text-align:center;font-size:11px;color:#888">Code secret</p><input type="password" id="codeIn" placeholder="••••" style="text-align:center;font-size:22px;letter-spacing:8px"><button class="bt" onclick="check()">ENTRER</button><p id="err" style="color:red;display:none;text-align:center">Faux code</p></div></div>
+
+<script>
+let adm=null,vs={A:[0,0],B:[0,0],C:[0,0]};
+const codes={admin1:'2009',admin2:'2009',cmd1:'111',cmd2:'222',cmd3:'333'};
+function go(t){document.querySelectorAll('.p').forEach(p=>p.classList.remove('on'));document.getElementById('tab-'+t).classList.add('on');document.querySelectorAll('.m button').forEach(b=>b.classList.remove('on'));let b=document.getElementById('btn-'+t);if(b)b.classList.add('on')}
+function code(a){adm=a;let titles={admin1:'🔴 ADMIN 1 - Modifie TOUT',admin2:'🔴 ADMIN 2 - Modifie TOUT',cmd1:'🔵 CMD D1 - Code 111',cmd2:'🟡 CMD D2 - Code 222',cmd3:'🟢 CMD D3 - Code 333'};document.getElementById('boxTitle').textContent=titles[a]||'ACCES';document.getElementById('box').style.display='block';document.getElementById('bg').style.display='block'}
+function closeCode(){document.getElementById('box').style.display='none';document.getElementById('bg').style.display='none';document.getElementById('err').style.display='none'}
+function check(){let v=document.getElementById('codeIn').value;if(v===codes[adm]){closeCode();if(adm.startsWith('cmd')){document.getElementById(adm+'-panel').classList.add('on')}else{document.getElementById(adm+'-panel').classList.add('on')}document.getElementById('codeIn').value=''}else document.getElementById('err').style.display='block'}
+function closeA(a){document.getElementById(a+'-panel').classList.remove('on')}
+function closeCmd(a){document.getElementById(a+'-panel').classList.remove('on')}
+function upVideo(e,n){const f=e.target.files[0];if(!f)return;if(f.size>25*1024*1024){alert('Vidéo trop lourde! Max 25Mo. Compresse avec CapCut');return}const r=new FileReader();r.onload=x=>{localStorage.setItem('vid'+n,x.target.result);localStorage.removeItem('img'+n);loadMedia()};r.readAsDataURL(f)}
+function delVideo(n){if(confirm('Supprimer vidéo D'+n+'?')){localStorage.removeItem('vid'+n);loadMedia();alert('Vidéo D'+n+' supprimée')}}
+function up(e,n){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=x=>{localStorage.setItem('img'+n,x.target.result);localStorage.removeItem('vid'+n);loadMedia()};r.readAsDataURL(f)}
+function upL(e,t){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=x=>{localStorage.setItem('leg'+t+'Img',x.target.result);loadLeg()};r.readAsDataURL(f)}
+function saveN(n){let v=document.getElementById('n'+n).value;if(v){localStorage.setItem('txt'+n,v);loadMedia()}}
+function saveNAdmin(n,admNum){let id=n===1?(admNum===1?'n1a':'n1b'):n===2?(admNum===1?'n2a':'n2b'):(admNum===1?'n3a':'n3b');let v=document.getElementById(id).value;if(v){localStorage.setItem('txt'+n,v);loadMedia()}}
+function saveRecord(num){let name=document.getElementById(num===1?'recName1':'recName2').value;let desc=document.getElementById(num===1?'recDesc1':'recDesc2').value;if(name)localStorage.setItem('legRecordName',name);if(desc)localStorage.setItem('legRecordDesc',desc);loadLeg();alert('Record sauvé')}
+function loadMedia(){[1,2,3].forEach(i=>{let vid=localStorage.getItem('vid'+i);let img=localStorage.getItem('img'+i);let vEl=document.getElementById('vid'+i);let iEl=document.getElementById('img'+i);if(vid){vEl.src=vid;vEl.style.display='block';iEl.style.display='none';vEl.load()}else if(img){iEl.src=img;iEl.style.display='block';vEl.style.display='none'}let tx=localStorage.getItem('txt'+i);if(tx)document.getElementById('txt'+i).textContent=tx})}
+function loadLeg(){['Best','Strat','Prod','Record'].forEach(t=>{let i=localStorage.getItem('leg'+t+'Img');let n=localStorage.getItem('leg'+t+'Name');let d=localStorage.getItem('leg'+t+'Desc');if(i)document.getElementById('leg'+t+'Img').src=i;if(n)document.getElementById('leg'+t+'Name').textContent=n;if(d&&document.getElementById('leg'+t+'Desc'))document.getElementById('leg'+t+'Desc').textContent=d})}
+function voteVS(m,t){let p=prompt('Pseudo:');if(!p)return;let k='vs_'+m;let list=JSON.parse(localStorage.getItem('voters_'+k)||'[]');if(list.includes(p)){alert('Deja voté');return}list.push(p);localStorage.setItem('voters_'+k,JSON.stringify(list));vs[m][t-1]++;localStorage.setItem('vs',JSON.stringify(vs));upd()}
+function setA(n){localStorage.setItem('arena',document.getElementById('arena'+n).value);applyA()}
+function applyA(){let a=localStorage.getItem('arena')||'ABC';let map={none:[],A:['vsA'],B:['vsB'],C:['vsC'],ABC:['vsA','vsB','vsC']};['vsA','vsB','vsC'].forEach(id=>{let e=document.getElementById(id);if(e)e.style.display='none'});(map[a]||[]).forEach(id=>{let e=document.getElementById(id);if(e)e.style.display='block'})}
+function cancelOne(m){if(!confirm('Annuler VS '+m+'? Admin only'))return;let code=prompt('Code Admin pour annuler:');if(code!=='2009'){alert('Seul admin peut annuler');return}vs[m]=[0,0];localStorage.setItem('vs',JSON.stringify(vs));document.getElementById('vs'+m).style.display='none';upd()}
+function pub(n){let t=document.getElementById('r'+n).value;if(!t)return;localStorage.setItem('res',t);loadR()}
+function loadR(){let r=localStorage.getItem('res');document.getElementById('publicResult').textContent=r||'Aucun résultat'}
+function upd(){try{vs=JSON.parse(localStorage.getItem('vs'))||vs}catch(e){}document.getElementById('sA1').textContent=vs.A[0];document.getElementById('sA2').textContent=vs.A[1];document.getElementById('sB1').textContent=vs.B[0];document.getElementById('sB2').textContent=vs.B[1];document.getElementById('sC1').textContent=vs.C[0];document.getElementById('sC2').textContent=vs.C[1]}
+window.onload=function(){loadMedia();upd();applyA();loadR();loadLeg()}
+</script></body></html>
